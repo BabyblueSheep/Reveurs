@@ -1,29 +1,28 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "reveurs",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Reveurs",
+  "description": "yesterday i found out a weeb girl in my class has my phone number saved under the name 'light yagami'",
   "authors": [
-    "Me!"
+    "babybluesheep"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/BabyblueSheep/Reveurs"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "license": "MIT",
+  "icon": "assets/reveurs/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "net.babybluesheep.reveurs.ReveursMod"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "reveurs.mixins.json"
   ],
 
   "depends": {
