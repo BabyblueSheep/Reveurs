@@ -1,0 +1,13 @@
+{
+	"type": "reveurs:dripstone_pierce",
+	"input": {
+		"item": "reveurs:geode",
+		"count": 1
+	},
+	"output": [
+		{
+			"item": "reveurs:bismuth",
+			"count": 2
+		}
+	]
+}
