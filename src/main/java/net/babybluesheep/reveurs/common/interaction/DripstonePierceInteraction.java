@@ -1,5 +1,6 @@
 package net.babybluesheep.reveurs.common.interaction;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.Item;
@@ -7,14 +8,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class DripstonePierceInteraction implements Interaction {
-    protected final ItemEntity input;
+    public final Item input;
     protected final int minCount;
-    protected final ItemStack output;
+    protected final List<ItemStack> output;
 
     protected final Identifier id;
 
-    DripstonePierceInteraction(Identifier id, ItemEntity input, int minCount, ItemStack output) {
+    public DripstonePierceInteraction(Identifier id, Item input, int minCount, List<ItemStack> output) {
         this.id = id;
 
         this.input = input;
@@ -24,20 +27,22 @@ public class DripstonePierceInteraction implements Interaction {
 
 
     @Override
-    public void interactHappen(World world) {
+    public void interactHappen(World world, ItemEntity inputEntity) {
         int count = 0;
-        int maxCount = input.getStack().getCount();
+        int maxCount = inputEntity.getStack().getCount();
         for (int i = 0; i < maxCount; i += minCount) {
             count += minCount;
-            input.getStack().setCount(input.getStack().getCount() - minCount);
+            inputEntity.getStack().setCount(inputEntity.getStack().getCount() - minCount);
         }
-        ItemStack outputStack = new ItemStack(output.getItem(), count);
-        ItemEntity outputEntity = new ItemEntity(EntityType.ITEM, world);
-        outputEntity.setStack(outputStack);
-        outputEntity.setPosition(input.getPos());
-        outputEntity.setVelocity(input.getVelocity().x/2, 0.3, input.getVelocity().z/2);
-        world.spawnEntity(outputEntity);
-        input.kill();
+        for(ItemStack i : output) {
+            ItemStack outputStack = new ItemStack(i.getItem(), count);
+            ItemEntity outputEntity = new ItemEntity(EntityType.ITEM, world);
+            outputEntity.setStack(outputStack);
+            outputEntity.setPosition(inputEntity.getPos());
+            outputEntity.setVelocity(inputEntity.getVelocity().x/2, 0.3, inputEntity.getVelocity().z/2);
+            world.spawnEntity(outputEntity);
+        }
+        inputEntity.kill();
     }
 
     @Override
