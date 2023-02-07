@@ -5,6 +5,7 @@ import net.babybluesheep.reveurs.core.registry.ReveursItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
@@ -18,6 +19,9 @@ public class ReveursMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("I'm here!!!!!!!!!!");
+		if (FabricLoader.getInstance().isModLoaded("")) { //remember a funny mod to put here
+			LOGGER.info("");
+		}
 
 		ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new InteractionsDataLoaderImpl());
 

@@ -1,16 +1,11 @@
 package net.babybluesheep.reveurs.core.mixin;
 
-import net.babybluesheep.reveurs.ReveursMod;
 import net.babybluesheep.reveurs.common.interaction.DripstonePierceInteraction;
 import net.babybluesheep.reveurs.core.data.InteractionsDataLoader;
-import net.babybluesheep.reveurs.core.registry.ReveursItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PointedDripstoneBlock;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,7 +19,7 @@ public abstract class PointedDripstoneMixin {
     private void FallOnItemStack(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance, CallbackInfo ci) {
         if (entity instanceof ItemEntity) {
             for(DripstonePierceInteraction i : InteractionsDataLoader.DRIPSTONE_INTERACTIONS) {
-                if(((ItemEntity) entity).getStack().isOf(i.input)) {
+                if(((ItemEntity) entity).getStack().isOf(i.getInput()) && ((ItemEntity) entity).getStack().getCount() >= i.GetMinCount()) {
                     i.interactHappen(world, (ItemEntity) entity);
                 }
             }
