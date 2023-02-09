@@ -14,5 +14,7 @@
 			"count": 1,
 			"chance": 0.5
 		}
-	]
+	],
+	"experience": 0.35,
+	"sound": "entity.zombie.hurt"
 }

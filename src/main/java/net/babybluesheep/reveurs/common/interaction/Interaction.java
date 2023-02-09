@@ -3,6 +3,7 @@ package net.babybluesheep.reveurs.common.interaction;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -18,6 +19,7 @@ public interface Interaction {
     Identifier getIdentifier();
 
     float getExp();
+    SoundEvent getSound();
 
     void interactHappen(World world, ItemEntity inputEntity);
 }

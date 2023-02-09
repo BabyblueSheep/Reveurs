@@ -2,12 +2,16 @@ package net.babybluesheep.reveurs.common.interaction;
 
 import net.babybluesheep.reveurs.ReveursMod;
 import net.babybluesheep.reveurs.core.helper.WorldHelper;
+import net.minecraft.client.sound.SoundManager;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.world.World;
@@ -23,10 +27,11 @@ public class DripstonePierceInteraction implements Interaction {
     @NotNull protected final Map<ItemStack, Float> output;
 
     protected final float exp;
+    @NotNull protected final SoundEvent sound;
 
     @NotNull protected final Identifier id;
 
-    public DripstonePierceInteraction(@NotNull Identifier id, @NotNull Item input, int minCount, @NotNull Map<ItemStack, Float> output, float exp) {
+    public DripstonePierceInteraction(@NotNull Identifier id, @NotNull Item input, int minCount, @NotNull Map<ItemStack, Float> output, float exp, @NotNull SoundEvent sound) {
         this.id = id;
 
         this.input = input;
@@ -34,11 +39,13 @@ public class DripstonePierceInteraction implements Interaction {
         this.output = output;
 
         this.exp = exp;
+        this.sound = sound;
     }
 
 
     @Override
     public void interactHappen(@NotNull World world, @NotNull ItemEntity inputEntity) {
+        float finalExp = 0;
         int count = 0;
         int maxCount = inputEntity.getStack().getCount();
 
@@ -54,6 +61,7 @@ public class DripstonePierceInteraction implements Interaction {
                 Random rand = new Random();
                 if(rand.nextFloat() < output.get(i)) {
                     outputStack.setCount(outputStack.getCount() + 1);
+                    finalExp += exp;
                 }
             }
             ItemEntity outputEntity = new ItemEntity(EntityType.ITEM, world);
@@ -64,7 +72,11 @@ public class DripstonePierceInteraction implements Interaction {
         }
 
         if (world instanceof ServerWorld serverWorld) {
-            WorldHelper.dropExperience(serverWorld, inputEntity.getPos(), 1, exp);
+            WorldHelper.dropExperience(serverWorld, inputEntity.getPos(), 1, finalExp);
+        }
+
+        if (!world.isClient) {
+            world.playSound(null, inputEntity.getBlockPos(), sound, SoundCategory.BLOCKS, 1f, 1f);
         }
     }
 
@@ -91,6 +103,11 @@ public class DripstonePierceInteraction implements Interaction {
     @Override
     public float getExp() {
         return this.exp;
+    }
+
+    @Override
+    public @NotNull SoundEvent getSound() {
+        return this.sound;
     }
 
 

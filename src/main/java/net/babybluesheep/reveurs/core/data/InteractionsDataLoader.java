@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.profiler.Profiler;
@@ -80,10 +81,12 @@ public class InteractionsDataLoader extends JsonDataLoader {
 
             float expObject = object.has("experience") ? object.getAsJsonPrimitive("experience").getAsFloat() : 0f;
 
+            String soundID = object.has("sound") ? object.getAsJsonPrimitive("sound").getAsString() : "";
+            SoundEvent sound = Registries.SOUND_EVENT.get(new Identifier(soundID));
 
             switch (idString) {
                 case "reveurs:dripstone_pierce" -> {
-                    DripstonePierceInteraction interact = new DripstonePierceInteraction(identifier, Registries.ITEM.get(inputItem), inputCount, itemOutputs, expObject);
+                    DripstonePierceInteraction interact = new DripstonePierceInteraction(identifier, Registries.ITEM.get(inputItem), inputCount, itemOutputs, expObject, sound);
                     DRIPSTONE_INTERACTIONS.add(interact);
                 }
                 default -> ReveursMod.LOGGER.warn("Interaction type in " + identifier + " invalid, skipping");
