@@ -10,6 +10,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.profiler.Profiler;
 
 import java.util.*;
@@ -60,22 +61,29 @@ public class InteractionsDataLoader extends JsonDataLoader {
                 ReveursMod.LOGGER.warn("Output in " + fileName + " not found, skipping");
                 continue;
             }
-            List<ItemStack> itemOutputs = new ArrayList<>();
+            Map<ItemStack, Float> itemOutputs = new HashMap<>();
             for (JsonElement i : outputs) {
+                JsonObject iOutput = i.getAsJsonObject();
                 if(isItemObjectInvalid(i.getAsJsonObject())) {
                     ReveursMod.LOGGER.warn("Output item stack in " + fileName + " is invalid, skipping");
                     continue;
                 }
-                Identifier outputIDi = new Identifier(i.getAsJsonObject().getAsJsonPrimitive("item").getAsString());
-                int outputCounti = i.getAsJsonObject().getAsJsonPrimitive("count").getAsInt();
-                itemOutputs.add(new ItemStack(Registries.ITEM.get(outputIDi), outputCounti));
+
+                Identifier outputIDi = new Identifier(iOutput.getAsJsonPrimitive("item").getAsString());
+                int outputCounti = iOutput.getAsJsonPrimitive("count").getAsInt();
+                ItemStack outputStack = new ItemStack(Registries.ITEM.get(outputIDi), outputCounti);
+
+                float outputChance = iOutput.has("chance") ? Math.max(0f, Math.min(1f, iOutput.getAsJsonPrimitive("chance").getAsFloat())) : 1f;
+
+                itemOutputs.put(outputStack, outputChance);
             }
 
+            float expObject = object.has("experience") ? object.getAsJsonPrimitive("experience").getAsFloat() : 0f;
 
 
             switch (idString) {
                 case "reveurs:dripstone_pierce" -> {
-                    DripstonePierceInteraction interact = new DripstonePierceInteraction(identifier, Registries.ITEM.get(inputItem), inputCount, itemOutputs);
+                    DripstonePierceInteraction interact = new DripstonePierceInteraction(identifier, Registries.ITEM.get(inputItem), inputCount, itemOutputs, expObject);
                     DRIPSTONE_INTERACTIONS.add(interact);
                 }
                 default -> ReveursMod.LOGGER.warn("Interaction type in " + identifier + " invalid, skipping");

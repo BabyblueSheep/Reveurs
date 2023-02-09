@@ -7,14 +7,17 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Interaction {
 
     Item getInput();
     int GetMinCount();
-    List<ItemStack> getOutput();
+    Map<ItemStack, Float> getOutput();
 
     Identifier getIdentifier();
+
+    float getExp();
 
     void interactHappen(World world, ItemEntity inputEntity);
 }

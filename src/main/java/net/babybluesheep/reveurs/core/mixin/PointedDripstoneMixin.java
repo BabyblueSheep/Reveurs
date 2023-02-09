@@ -17,10 +17,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class PointedDripstoneMixin {
     @Inject(at = @At("HEAD"), method = "onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/block/BlockState;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V")
     private void FallOnItemStack(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance, CallbackInfo ci) {
-        if (entity instanceof ItemEntity) {
+        if (entity instanceof ItemEntity itemEntity) {
             for(DripstonePierceInteraction i : InteractionsDataLoader.DRIPSTONE_INTERACTIONS) {
-                if(((ItemEntity) entity).getStack().isOf(i.getInput()) && ((ItemEntity) entity).getStack().getCount() >= i.GetMinCount()) {
-                    i.interactHappen(world, (ItemEntity) entity);
+                if(itemEntity.getStack().isOf(i.getInput()) && itemEntity.getStack().getCount() >= i.GetMinCount()) {
+                    i.interactHappen(world, itemEntity);
                 }
             }
         }
