@@ -1,5 +1,7 @@
 {
 	"item.reveurs.geode": "Geode",
 	"item.reveurs.bismuth": "Bismuth",
-	"item.reveurs.refined_bismuth": "Refined Bismuth"
+	"item.reveurs.refined_bismuth": "Refined Bismuth",
+	
+	"emi.category.reveurs.interactions": "Interaction"
 }

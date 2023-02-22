@@ -7,6 +7,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ItemStackParticleEffect;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -45,6 +48,12 @@ public class DripstonePierceInteraction implements Interaction {
 
     @Override
     public void interactHappen(@NotNull World world, @NotNull ItemEntity inputEntity) {
+        ParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, inputEntity.getStack());
+        for(int i = 0; i < 8; ++i) {
+            Random rand = new Random();
+            world.addParticle(particleEffect, inputEntity.getX(), inputEntity.getY(), inputEntity.getZ(), ((double)rand.nextFloat() - 0.5D) * 0.08D, ((double)rand.nextFloat()) * 0.08D, ((double)rand.nextFloat() - 0.5D) * 0.08D);
+        }
+
         float finalExp = 0;
         int count = 0;
         int maxCount = inputEntity.getStack().getCount();
@@ -73,9 +82,6 @@ public class DripstonePierceInteraction implements Interaction {
 
         if (world instanceof ServerWorld serverWorld) {
             WorldHelper.dropExperience(serverWorld, inputEntity.getPos(), 1, finalExp);
-        }
-
-        if (!world.isClient) {
             world.playSound(null, inputEntity.getBlockPos(), sound, SoundCategory.BLOCKS, 1f, 1f);
         }
     }
@@ -86,7 +92,7 @@ public class DripstonePierceInteraction implements Interaction {
     }
 
     @Override
-    public int GetMinCount() {
+    public int getMinCount() {
         return this.minCount;
     }
 

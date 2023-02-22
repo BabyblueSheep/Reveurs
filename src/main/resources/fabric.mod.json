@@ -19,6 +19,9 @@
   "entrypoints": {
     "main": [
       "net.babybluesheep.reveurs.ReveursMod"
+    ],
+    "emi": [
+      "net.babybluesheep.reveurs.core.compat.emi.ReveursModEMI"
     ]
   },
   "mixins": [

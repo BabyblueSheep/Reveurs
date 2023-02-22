@@ -13,7 +13,7 @@ import java.util.Map;
 public interface Interaction {
 
     Item getInput();
-    int GetMinCount();
+    int getMinCount();
     Map<ItemStack, Float> getOutput();
 
     Identifier getIdentifier();

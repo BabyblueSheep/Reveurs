@@ -19,7 +19,7 @@ public abstract class PointedDripstoneMixin {
     private void FallOnItemStack(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance, CallbackInfo ci) {
         if (entity instanceof ItemEntity itemEntity) {
             for(DripstonePierceInteraction i : InteractionsDataLoader.DRIPSTONE_INTERACTIONS) {
-                if(itemEntity.getStack().isOf(i.getInput()) && itemEntity.getStack().getCount() >= i.GetMinCount()) {
+                if(itemEntity.getStack().isOf(i.getInput()) && itemEntity.getStack().getCount() >= i.getMinCount()) {
                     i.interactHappen(world, itemEntity);
                 }
             }

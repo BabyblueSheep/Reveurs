@@ -15,6 +15,6 @@
 			"chance": 0.5
 		}
 	],
-	"experience": 0.35,
-	"sound": "entity.zombie.hurt"
+	"experience": 0,
+	"sound": "block.basalt.break"
 }
