@@ -36,8 +36,7 @@ public class ItemStackMixin implements ItemStackTooltip {
 
 
 
-    @Inject(
-            at = @At(
+    @Inject(at = @At(
                     value = "INVOKE",
                     target="Lnet/minecraft/item/ItemStack;isSectionVisible(ILnet/minecraft/item/ItemStack$TooltipSection;)Z"),
             method = "getTooltip(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/client/item/TooltipContext;)Ljava/util/List;",

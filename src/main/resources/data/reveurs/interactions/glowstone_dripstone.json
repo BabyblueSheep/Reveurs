@@ -1,0 +1,20 @@
+{
+	"type": "reveurs:dripstone_pierce",
+	"input": {
+		"item": "minecraft:glowstone",
+		"count": 1
+	},
+	"output": [
+		{
+			"item": "minecraft:glowstone_dust",
+			"count": 3
+		},
+		{
+			"item": "minecraft:glowstone_dust",
+			"count": 1,
+			"chance": 0.5
+		}
+	],
+	"experience": 0,
+	"sound": "block.glass.break"
+}

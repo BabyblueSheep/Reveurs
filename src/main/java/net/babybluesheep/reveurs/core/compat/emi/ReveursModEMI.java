@@ -23,7 +23,7 @@ public class ReveursModEMI implements EmiPlugin {
     @Override
     public void register(EmiRegistry registry) {
         ItemStack dripstoneStack = new ItemStack(Items.POINTED_DRIPSTONE, 1);
-        ((ItemStackTooltip)(Object)dripstoneStack).reveurs$setCustomTooltip("Throw the input on a pointed dripstone to recieve the output.");
+        ((ItemStackTooltip)(Object)dripstoneStack).reveurs$setCustomTooltip("Throw the input on a pointed dripstone/Let a pointed dripstone land on the input to recieve the output.");
 
         for(DripstonePierceInteraction i : InteractionsDataLoader.DRIPSTONE_INTERACTIONS) {
             EmiWorldInteractionRecipe.Builder emiDripstoneRecipe = EmiWorldInteractionRecipe.builder()
@@ -31,7 +31,10 @@ public class ReveursModEMI implements EmiPlugin {
                     .leftInput(EmiStack.of(i.getInput(), i.getMinCount()))
                     .rightInput(EmiStack.of(dripstoneStack), true);
             for(Map.Entry<ItemStack, Float> j : i.getOutput().entrySet()) {
-                emiDripstoneRecipe.output(EmiStack.of(j.getKey()));
+                ItemStack outputStack = j.getKey();
+                float chance = j.getValue()*100;
+                ((ItemStackTooltip)(Object)outputStack).reveurs$setCustomTooltip(chance+"%");
+                emiDripstoneRecipe.output(EmiStack.of(outputStack));
             }
             addRecipeSafe(registry, emiDripstoneRecipe::build);
         }
