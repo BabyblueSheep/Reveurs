@@ -8,7 +8,9 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import net.babybluesheep.reveurs.ReveursMod;
 import net.babybluesheep.reveurs.common.interaction.DripstonePierceInteraction;
+import net.babybluesheep.reveurs.common.item.ItemStackTooltip;
 import net.babybluesheep.reveurs.core.data.InteractionsDataLoader;
+import net.babybluesheep.reveurs.core.mixin.ItemStackMixin;
 import net.babybluesheep.reveurs.core.registry.ReveursItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -20,11 +22,14 @@ import java.util.function.Supplier;
 public class ReveursModEMI implements EmiPlugin {
     @Override
     public void register(EmiRegistry registry) {
+        ItemStack dripstoneStack = new ItemStack(Items.POINTED_DRIPSTONE, 1);
+        ((ItemStackTooltip)(Object)dripstoneStack).reveurs$setCustomTooltip("Throw the input on a pointed dripstone to recieve the output.");
+
         for(DripstonePierceInteraction i : InteractionsDataLoader.DRIPSTONE_INTERACTIONS) {
             EmiWorldInteractionRecipe.Builder emiDripstoneRecipe = EmiWorldInteractionRecipe.builder()
                     .id(i.getIdentifier())
                     .leftInput(EmiStack.of(i.getInput(), i.getMinCount()))
-                    .rightInput(EmiStack.of(Items.POINTED_DRIPSTONE), true);
+                    .rightInput(EmiStack.of(dripstoneStack), true);
             for(Map.Entry<ItemStack, Float> j : i.getOutput().entrySet()) {
                 emiDripstoneRecipe.output(EmiStack.of(j.getKey()));
             }

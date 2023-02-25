@@ -27,6 +27,7 @@
   "mixins": [
     "reveurs.mixins.json"
   ],
+  "accessWidener" : "reveurs.accesswidener",
 
   "depends": {
     "fabricloader": ">=0.14.11",

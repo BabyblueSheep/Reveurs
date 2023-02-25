@@ -1,6 +1,7 @@
 package net.babybluesheep.reveurs.common.interaction;
 
 import net.babybluesheep.reveurs.ReveursMod;
+import net.babybluesheep.reveurs.common.item.ItemStackTooltip;
 import net.babybluesheep.reveurs.core.helper.WorldHelper;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.entity.EntityType;
